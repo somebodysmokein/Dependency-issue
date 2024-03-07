@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.tapestry.ecom.testFramework</groupId>
+    <artifactId>TORo_eTAF_2.0</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>TORo Digitalization TestAutomation Framework</name>
+    <description>Supports TORo eCom Test Automation</description>
+
+    <properties>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <javadoc.version>3.5.0</javadoc.version>
+
+        <!-- Maven Plugin Versions -->
+        <maven.compiler.plugin.version>3.10.0</maven.compiler.plugin.version>
+        <maven.surefire.plugin.version>3.0.0-M5</maven.surefire.plugin.version>
+        <maven.resources.plugin.version>3.2.0</maven.resources.plugin.version>
+        <maven.source.version>3.2.0</maven.source.version>
+        <maven.compiler.jdk.version>11</maven.compiler.jdk.version>
+        <apache-extras.beanshell.version>2.0b6</apache-extras.beanshell.version>
+
+        <!-- Selenium/Appium Dependencies Versions  -->
+        <selenium.java.version>4.2.1</selenium.java.version>
+        <surefire.plugin.version>3.0.0-M5</surefire.plugin.version>
+        <appium.version>8.1.1</appium.version>
+        <bonigarcia.webdrivermanager.version>5.5.2</bonigarcia.webdrivermanager.version>
+        <testng.version>7.1.0</testng.version>
+
+        <!-- Reporting Dependencies Versions  -->
+        <extentreports.cucumber4.adapter.version>1.2.1</extentreports.cucumber4.adapter.version>
+        <extentreports.version>5.0.3</extentreports.version>
+        <io.cucumber.version>4.8.1</io.cucumber.version>
+        <cucumber.jvm.deps.version>1.0.6</cucumber.jvm.deps.version>
+        <maven.cucumber.reporting.version>5.0.0</maven.cucumber.reporting.version>
+        <javax.annotation.api.version>1.3.2</javax.annotation.api.version>
+        <commons.io.version>2.7</commons.io.version>
+        <browserstack.local.java.version>1.0.3</browserstack.local.java.version>
+        <json.simple.version>1.1.1</json.simple.version>
+        <javax.mail.version>1.6.2</javax.mail.version>
+        <log4j.core.version>2.20.0</log4j.core.version>
+
+        <!-- Supporting Dependencies Versions  -->
+        <screenshot.ashot.version>1.5.4</screenshot.ashot.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <extentreports.testng.adapter.version>1.0.6</extentreports.testng.adapter.version>
+        <poi.version>5.2.3</poi.version>
+        <poi.ooxml.version>5.2.3</poi.ooxml.version>
+        <velocity.engine.core.version>2.3</velocity.engine.core.version>
+        <okhttp3.version>5.0.0-alpha.2</okhttp3.version>
+        <networknt.json.schema.validator.version>1.0.42</networknt.json.schema.validator.version>
+        <aws.sdk.version>2.16.64</aws.sdk.version>
+        <rest.assured.version>4.3.3</rest.assured.version>
+        <rest.assured.json.version>4.3.3</rest.assured.json.version>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <mongo.driver.version>3.12.8</mongo.driver.version>
+        <saucerest.version>1.1.0</saucerest.version>
+        <jayway.json.schema.validator.version>2.8.0</jayway.json.schema.validator.version>
+        <jayway.rest.assured.version>2.8.0</jayway.rest.assured.version>
+        <jayway.json.path.version>2.4.0</jayway.json.path.version>
+        <jsoup.version>1.14.3</jsoup.version>
+        <axe.selenium.version>3.0</axe.selenium.version>
+
+        <slf4j.jdk14.version>2.0.0-alpha1</slf4j.jdk14.version>
+        <config.file>default</config.file>
+
+    </properties>
+
+
+    <!-- ==================================================================== -->
+    <!-- PROFILES -->
+    <!-- ==================================================================== -->
+
+    <profiles>
+        <profile>
+            <id>single</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <suiteXmlFiles>
+                                <suiteXmlFile>src/test/resources/testNgXmls/cloud/single.testng.xml</suiteXmlFile>
+                            </suiteXmlFiles>
+                            <argLine>-javaagent:"${com.browserstack:browserstack-java-sdk:jar}"</argLine>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>parallel</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <suiteXmlFiles>
+                                <suiteXmlFile>src/test/resources/testNgXmls/cloud/parallel.testng.xml</suiteXmlFile>
+                            </suiteXmlFiles>
+                            <argLine>-javaagent:"${com.browserstack:browserstack-java-sdk:jar}"</argLine>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
+
+    <!-- ==================================================================== -->
+    <!-- DEPENDENCIES -->
+    <!-- ==================================================================== -->
+
+    <dependencies>
+
+        <!-- ==================================================================== -->
+        <!-- JAVADOCS DEPENDENCIES -->
+        <!-- ==================================================================== -->
+
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin -->
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>${javadoc.version}</version>
+        </dependency>
+
+        <!-- ==================================================================== -->
+        <!-- SELENIUM 4 DEPENDENCIES -->
+        <!-- ==================================================================== -->
+        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-remote-driver -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.java.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>${bonigarcia.webdrivermanager.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.projectlombok</groupId>
+                    <artifactId>lombok</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Selenium Java 4.0.0-alpha-1 requires Selenium Remote Driver 4.0.0-alpha-1 -->
+        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-remote-driver -->
+        <!-- <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-remote-driver</artifactId>
+            <version>${selenium.java.version}</version>
+        </dependency> -->
+
+        <!-- ==================================================================== -->
+        <!-- TESTNG & ANDROID DEPENDENCIES -->
+        <!-- ==================================================================== -->
+
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+        <!-- <dependency> -->
+        <!-- <groupId>org.junit.jupiter</groupId> -->
+        <!-- <artifactId>junit-jupiter-api</artifactId> -->
+        <!-- <version>5.7.0-M1</version> -->
+        <!-- <scope>test</scope> -->
+        <!-- </dependency> -->
+
+        <!-- https://mvnrepository.com/artifact/org.testng/testng -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.appium/java-client -->
+        <dependency>
+            <groupId>io.appium</groupId>
+            <artifactId>java-client</artifactId>
+            <version>${appium.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache-extras.beanshell/bsh -->
+        <dependency>
+            <groupId>org.apache-extras.beanshell</groupId>
+            <artifactId>bsh</artifactId>
+            <version>${apache-extras.beanshell.version}</version>
+        </dependency>
+
+        <!-- ==================================================================== -->
+        <!-- CUCUMBER DEPENDENCIES -->
+        <!-- ==================================================================== -->
+
+        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java8 -->
+        <!-- <dependency> -->
+        <!-- <groupId>io.cucumber</groupId> -->
+        <!-- <artifactId>cucumber-java8</artifactId> -->
+        <!-- <version>${cucumber.version}</version> -->
+        <!-- </dependency> -->
+
+        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java8 -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${io.cucumber.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-core -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-core</artifactId>
+            <version>${io.cucumber.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-junit -->
+        <!-- <dependency> -->
+        <!-- <groupId>io.cucumber</groupId> -->
+        <!-- <artifactId>cucumber-junit</artifactId> -->
+        <!-- <version>${cucumber.version}</version> -->
+        <!-- <scope>test</scope> -->
+        <!-- </dependency> -->
+
+        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-testng -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>${io.cucumber.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-picocontainer -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-picocontainer</artifactId>
+            <version>${io.cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-jvm-deps -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-jvm-deps</artifactId>
+            <version>${cucumber.jvm.deps.version}</version>
+            <!-- <scope>provided</scope> -->
+        </dependency>
+
+        <!-- ==================================================================== -->
+        <!-- SCREENSHOT DEPENDENCY -->
+        <!-- ==================================================================== -->
+
+        <!-- https://mvnrepository.com/artifact/ru.yandex.qatools.ashot/ashot -->
+        <dependency>
+            <groupId>ru.yandex.qatools.ashot</groupId>
+            <artifactId>ashot</artifactId>
+            <version>${screenshot.ashot.version}</version>
+        </dependency>
+
+        <!-- ==================================================================== -->
+        <!-- EXTENT REPORTS 4 PLUGIN -->
+        <!-- ==================================================================== -->
+
+        <!-- https://mvnrepository.com/artifact/com.aventstack/extentreports -->
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports</artifactId>
+            <version>${extentreports.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.projectlombok</groupId>
+                    <artifactId>lombok</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.aventstack/extentreports-cucumber4-adapter -->
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports-cucumber4-adapter</artifactId>
+            <version>${extentreports.cucumber4.adapter.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.cucumber</groupId>
+                    <artifactId>cucumber-java</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.cucumber</groupId>
+                    <artifactId>cucumber-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.aventstack/extentreports-testng-adapter -->
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports-testng-adapter</artifactId>
+            <version>${extentreports.testng.adapter.version}</version>
+        </dependency>
+
+
+        <!-- ==================================================================== -->
+        <!-- 'Symbol Not Found' COMPILATION ERROR FIX -->
+        <!-- ==================================================================== -->
+
+        <!-- https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api -->
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>${javax.annotation.api.version}</version>
+        </dependency>
+
+        <!-- ==================================================================== -->
+        <!-- BROWSERSTACK DEPENDENCIES -->
+        <!-- ==================================================================== -->
+
+        <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons.io.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.browserstack/browserstack-local-java -->
+        <dependency>
+            <groupId>com.browserstack</groupId>
+            <artifactId>browserstack-local-java</artifactId>
+            <version>${browserstack.local.java.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>${json.simple.version}</version>
+        </dependency>
+
+        <!-- ==================================================================== -->
+        <!-- EMAIL DEPENDENCIES -->
+        <!-- ==================================================================== -->
+
+        <!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>${javax.mail.version}</version>
+        </dependency>
+
+        <!-- ==================================================================== -->
+        <!-- LOG DEPENDENCIES -->
+        <!-- ==================================================================== -->
+
+        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.core.version}</version>
+        </dependency>
+
+        <!-- ==================================================================== -->
+        <!-- XLS REPORT GENERATION DEPENDENCIES -->
+        <!-- ==================================================================== -->
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi.ooxml.version}</version>
+        </dependency>
+
+        <!-- ==================================================================== -->
+        <!-- VELOCITY ENGINE CORE DEPENDENCIES -->
+        <!-- ==================================================================== -->
+
+        <!-- https://mvnrepository.com/artifact/org.apache.velocity/velocity-engine-core -->
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+            <version>${velocity.engine.core.version}</version>
+        </dependency>
+
+        <!-- ==================================================================== -->
+        <!-- OkHttpClient DEPENDENCIES for OCAPI -->
+        <!-- ==================================================================== -->
+
+        <!-- https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>${okhttp3.version}</version>
+        </dependency>
+
+
+        <!-- ==================================================================== -->
+        <!-- GA DEPENDENCIES -->
+        <!-- ==================================================================== -->
+
+        <dependency>
+            <groupId>com.networknt</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>${networknt.json.schema.validator.version}</version>
+        </dependency>
+
+        <!-- ==================================================================== -->
+        <!-- AWS DEVICE FARM DEPENDENCIES -->
+        <!-- ==================================================================== -->
+
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>aws-sdk-java</artifactId>
+            <version>${aws.sdk.version}</version>
+        </dependency>
+
+        <!-- ==================================================================== -->
+        <!-- MISC. DEPENDENCIES -->
+        <!-- ==================================================================== -->
+
+        <!-- https://mvnrepository.com/artifact/io.rest-assured/rest-assured -->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${rest.assured.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.rest-assured/json-path -->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-path</artifactId>
+            <version>${rest.assured.json.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver -->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>${mongo.driver.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.saucelabs/saucerest -->
+        <dependency>
+            <groupId>com.saucelabs</groupId>
+            <artifactId>saucerest</artifactId>
+            <version>${saucerest.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jayway.restassured</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>${jayway.json.schema.validator.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jayway.restassured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${jayway.rest.assured.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <version>${jayway.json.path.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>${jsoup.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.deque</groupId>
+            <artifactId>axe-selenium</artifactId>
+            <version>${axe.selenium.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.browserstack</groupId>
+            <artifactId>browserstack-java-sdk</artifactId>
+            <version>LATEST</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+        </dependency>
+
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <release>${maven.compiler.jdk.version}</release>
+                    <showDeprecation>true</showDeprecation>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven.surefire.plugin.version}</version>
+                <configuration>
+                    <testFailureIgnore>true</testFailureIgnore>
+                    <argLine>-javaagent:"${com.browserstack:browserstack-java-sdk:jar}"</argLine>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven.resources.plugin.version}</version>
+            </plugin>
+
+            <!-- ==================================================================== -->
+            <!-- Latest Cucumber JVM Reports Plugin -->
+            <!-- ==================================================================== -->
+
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+                <version>${maven.cucumber.reporting.version}</version>
+
+                <executions>
+                    <execution>
+                        <id>execution</id>
+                        <phase>verify</phase>
+                        <!--						<goals>-->
+                        <!--							<goal>generate</goal>-->
+                        <!--						</goals>-->
+                        <configuration>
+                            <projectName>Tapestry Automation Cucumber Reports
+                            </projectName> <!-- Replace with project name -->
+                            <outputDirectory>target/test-output/advanceReports</outputDirectory>
+                            <cucumberOutput>target/test-output/advanceReports/cucumber.json</cucumberOutput>
+                            <buildNumber>1</buildNumber>
+                            <parallelTesting>true</parallelTesting>
+                            <skip>false</skip>
+                            <inputDirectory>${project.build.directory}/test-output/cucumber-reports</inputDirectory>
+                            <jsonFiles> <!-- supports wildcard or name pattern -->
+                                <param>**/*.json</param>
+                            </jsonFiles> <!-- optional, defaults to outputDirectory if not specified -->
+                            <classificationDirectory>${project.build.directory}/test-output/cucumber-reports
+                            </classificationDirectory>
+                            <checkBuildResult>false</checkBuildResult>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- ==================================================================== -->
+            <!-- Javadocs Plugin to generate Javadocs for the Project JAR -->
+            <!-- ==================================================================== -->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${javadoc.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- ==================================================================== -->
+            <!-- Source Plugin to generate Source for the Project JAR -->
+            <!-- ==================================================================== -->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven.source.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>getClasspathFilenames</id>
+                        <goals>
+                            <goal>properties</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+
+</project>
